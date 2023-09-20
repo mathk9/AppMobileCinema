@@ -113,6 +113,7 @@ export default function SignupForm({navigation}){
           <Button
             style={styles.button}
             onPress={handleSubmit}
+            mode="contained"
             title="Cadastrar"
             accessibilityLabel="Sign up"
           />

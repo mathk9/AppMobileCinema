@@ -40,6 +40,9 @@ export default function Home({navigation}){
     console.log('listCart: ');
     console.log(listCart);
 
+    let cartAux = movies.find(movie => movie.id === id);
+    cartAux.price = cartAux.price / cartAux.seats.length
+
     const indexToRemove = listCart.findIndex(item => item.id === id);
 
     if (indexToRemove !== -1) {
@@ -55,18 +58,23 @@ export default function Home({navigation}){
     setQntCart(listCart.length);
   };
 
-  async function addToCart(id) {
+  async function addToCart(id, seats) {
     setAlert(null);
     const listCart = [...cart];
     let cartAux = movies.find(movie => movie.id === id);
 
     if (!listCart.some(item => item.id === id)) {
+      cartAux.seats = seats;
+      cartAux.price = cartAux.price * cartAux.seats.length
       listCart.push(cartAux);
+      
     } else {
       setAlert('O item já está no carrinho.');
     }
 
     setCart(listCart);
+    console.log('cart');
+    console.log(cart);
     setQntCart(listCart.length); 
   }
   
@@ -74,7 +82,7 @@ export default function Home({navigation}){
     <View style={styles.container}>
 
       <TouchableOpacity
-        onPress={() => navigation.navigate('Order', {params : { cart: cart }} )}
+        onPress={() => navigation.navigate('Order', { cart: cart })}
         style={styles.cartIconContainer}
       >
         <Icon name="shopping-cart" size={30} color="#007AFF" />
@@ -83,7 +91,7 @@ export default function Home({navigation}){
         )}
       </TouchableOpacity>
 
-      <Text style={styles.paragraph}>Home</Text>   
+      <Text style={styles.paragraph}>Filmes</Text>   
       <Alert message={alert} />
         <ScrollView style={styles.listMovies}>
           {
@@ -92,24 +100,12 @@ export default function Home({navigation}){
                 removeToCart={removeToCart} addToCart={addToCart} />
             ))
           }
-        
-          <Button
-            style={styles.buttonSignup}
-            onPress={()=>navigation.navigate('Login')}
-            color="#f194ff"
-            title="Ainda não tenho uma conta"
-            accessibilityLabel="Cadastrar"
-          />
         </ScrollView>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  buttonSignup: {
-    marginBottom: 12,
-    padding: 8,
-  },
   container: {
     padding: 20,
   },

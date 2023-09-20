@@ -78,6 +78,7 @@ export default function LoginForm({navigation}){
         <Button
           style={styles.buttonSignup}
           onPress={()=>navigation.navigate('SignupForm')}
+          mode="contained"
           color="#f194ff"
           title="Ainda não tenho uma conta"
           accessibilityLabel="Cadastrar"

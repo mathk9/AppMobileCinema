@@ -9,8 +9,8 @@ import SignupForm from './components/Signup';
 import Login from './components/Login';
 import Home from './components/Home';
 import Order from './components/Order';
+import Seats from './components/Seats';
 
-// or any pure javascript modules available in npm
 import { Card } from 'react-native-paper';
 import { createAppContainer, createSwitchNavigator } from 'react-navigation';
 
@@ -18,8 +18,9 @@ import { createTable, addMovie, getAllMovies } from './services/dbservice';
 
 const Routes = createAppContainer(
   createSwitchNavigator({
-    Login,
     Home,
+    Login,
+    Seats,
     Order,
     SignupForm,
   })
@@ -44,16 +45,16 @@ export default function App() {
       }
       
       // descomentar para criar um novo filme
-      // obj = {
-      //   movieName : 'Oppenheimer',
-      //   category : 'Drama',
-      //   price : 55.50,
-      //   description : 'Filme sobre o criador da bomba atomica.',
-      //   sessionDate : '20/09/2023',
-      // }
-      // await addMovie(obj);
+      obj = {
+        movieName : 'Barbie',
+        category : 'Comedia',
+        price : 45.50,
+        description : 'Filme da barbie',
+        sessionDate : '20/09/2023 17:50',
+      }
+      await addMovie(obj);
       
-      // console.log(await getAllMovies());
+      console.log(await getAllMovies());
     }
 
   return (

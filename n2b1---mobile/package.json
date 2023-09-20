@@ -19,7 +19,8 @@
     "@expo/vector-icons": "^13.0.0",
     "react-native-paper": "4.9.2",
     "@react-navigation/native": "^3.8.4",
-    "react-native-vector-icons": "*"
+    "react-native-vector-icons": "*",
+    "react-native-modal": "*"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"

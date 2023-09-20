@@ -1,72 +1,92 @@
-import * as React from 'react';
-import { View, Text, FlatList, Image, StyleSheet } from 'react-native';
+import React from 'react';
+import { View, Text, FlatList, Image, StyleSheet, ScrollView, SafeAreaView, Button } from 'react-native';
+import { DataTable } from 'react-native-paper';
 
-export default function PedidoScreen({ route }) {
-  const { cart } = route.params;
+export default function Order({ navigation }) {
+  const { cart } = navigation.state.params;
   
   console.log('cart: ');
-  console.log(cart);
+  console.log(cart);  
+
+  const handleSubmit = async () => {
+    
+  }
   
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Resumo da Compra</Text>
-      {cart.length === 0 ? (
-        <Text style={styles.emptyCartText}>Seu carrinho está vazio.</Text>
-      ) : (
-        <FlatList
-          data={cart}
-          keyExtractor={item => item.id.toString()}
-          renderItem={({ item }) => (
-            <View style={styles.cartItem}>
-              <View style={styles.itemDetails}>
-                <Text style={styles.itemTitle}>{item.movieName}</Text>
-                <Text style={styles.itemPrice}>Preço: R${movie.price.toFixed(2)}</Text>
-                <Text style={styles.itemDate}>Data: {item.sessionDate}</Text>
-              </View>
-            </View>
-          )}
+      <SafeAreaView>
+        <Text style={styles.paragraph}>Resumo da Compra</Text>
+        <DataTable>
+
+          <DataTable.Header>
+            <DataTable.Title >Filme</DataTable.Title>
+            <DataTable.Title >Data</DataTable.Title>
+            <DataTable.Title >Preço</DataTable.Title>
+            <DataTable.Title numeric>Assentos</DataTable.Title>
+          </DataTable.Header>
+
+          {cart.map((item, index) => (
+            <DataTable.Row key={item.id}>
+              <DataTable.Cell >{item.movieName}</DataTable.Cell>
+              <DataTable.Cell >{item.sessionDate}</DataTable.Cell>
+              <DataTable.Cell >R${item.price.toFixed(2)}</DataTable.Cell>
+              <DataTable.Cell numeric>
+                {item.seats.map((seat)=> seat)}
+              </DataTable.Cell>
+            </DataTable.Row>
+            
+          ))}
+
+        </DataTable>
+
+        <View style={styles.total}>
+          <Text >Total:</Text>
+          <Text >
+            ${cart.reduce((total, item) => total + item.price, 0).toFixed(2)}
+          </Text>
+        </View>
+
+        <Button
+          style={styles.button}
+          title="Finalizar Compra"
+          color="#f194ff"
+          mode="contained"
+          accessibilityLabel="Finalizar"
         />
-      )}
+        <Button
+          style={styles.button}
+          title="Reiniciar a compra"
+          color="red"
+          mode="contained"
+          onPress={()=> navigation.navigate('Home')}
+          accessibilityLabel="Reiniciar"
+        />
+      </SafeAreaView>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    padding: 16,
-    backgroundColor: '#f5f5f5',
+    padding: 20,
   },
-  title: {
-    fontSize: 24,
-    marginBottom: 20,
-    color: '#333',
-  },
-  emptyCartText: {
+  paragraph: {
+    marginBottom: 24,
     fontSize: 18,
+    fontWeight: 'bold',
     textAlign: 'center',
-    color: '#888',
   },
-  cartItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingVertical: 10,
-    borderBottomWidth: 1,
-    borderBottomColor: '#ddd',
-  },
-  itemDetails: {
-    flex: 1,
-  },
-  itemTitle: {
+  total: {
     fontSize: 18,
-    color: '#333',
+    fontWeight: 'bold',
+    color: '#000',
+    marginTop: 16,
+    marginBottom: 25,
   },
-  itemPrice: {
-    fontSize: 16,
-    color: '#777',
-  },
-  itemDate: {
-    fontSize: 16,
-    color: '#777',
+  button: {
+    position: 'absolute',
+    marginBottom: 12,
+    padding: 8,
+    top: '95%',
   },
 });
