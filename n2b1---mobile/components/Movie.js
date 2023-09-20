@@ -3,6 +3,8 @@ import { StyleSheet } from 'react-native';
 import { Button, Card, Text, Modal } from 'react-native-paper';
 import Seats from './Seats'; // Importe o componente SeatsSelection
 import bg from '../assets/oppenheimer-poster-mobile-5166c.jpg';
+import bg2 from '../assets/barbie.jpg';
+import bg3 from '../assets/besouroAzul.jpg';
 
 export default function Movie({ movie, removeToCart, addToCart }) {
   const [isModalVisible, setModalVisible] = useState(false);
