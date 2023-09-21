@@ -10,6 +10,7 @@ import Login from './components/Login';
 import Home from './components/Home';
 import Order from './components/Order';
 import Seats from './components/Seats';
+import ListOrder from './components/ListOrder';
 
 import { Card } from 'react-native-paper';
 import { createAppContainer, createSwitchNavigator } from 'react-navigation';
@@ -21,6 +22,7 @@ const Routes = createAppContainer(
     Home,
     Login,
     Seats,
+    ListOrder,
     Order,
     SignupForm,
   })
@@ -45,16 +47,16 @@ export default function App() {
       }
       
       // descomentar para criar um novo filme
-      obj = {
-        movieName : 'Barbie',
-        category : 'Comedia',
-        price : 45.50,
-        description : 'Filme da barbie',
-        sessionDate : '20/09/2023 17:50',
-      }
-      await addMovie(obj);
+      // obj = {
+      //   movieName : 'Besouro Azul',
+      //   category : 'Ficção',
+      //   price : 37.85,
+      //   description : 'Filme de heroi da DC',
+      //   sessionDate : '20/09/2023 20:30',
+      // }
+      // await addMovie(obj);
       
-      console.log(await getAllMovies());
+      // console.log(await getAllMovies());
     }
 
   return (

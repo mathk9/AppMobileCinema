@@ -3,6 +3,8 @@ import { StyleSheet } from 'react-native';
 import { Button, Card, Text, Modal } from 'react-native-paper';
 import Seats from './Seats'; // Importe o componente SeatsSelection
 import bg from '../assets/oppenheimer-poster-mobile-5166c.jpg';
+import bg2 from '../assets/barbie.jpg';
+import bg3 from '../assets/besouroAzul.jpg';
 
 export default function Movie({ movie, removeToCart, addToCart }) {
   const [isModalVisible, setModalVisible] = useState(false);
@@ -22,7 +24,11 @@ export default function Movie({ movie, removeToCart, addToCart }) {
         <Text variant="titleLarge">{movie.description}</Text>
         <Text variant="bodyMedium">R${movie.price.toFixed(2)}</Text>
       </Card.Content>
-      <Card.Cover source={bg} />
+      <Card.Cover source={movie.movieName == 'Oppenheimer'? bg : 
+                          movie.movieName == 'Barbie' ? bg2 :
+                          movie.movieName == 'Besouro Azul' ? bg3 : ''
+                  }
+       style={styles.img}/>
       <Card.Actions>
         <Button onPress={() => openSeatsSelectionModal()}>Selecionar Assentos</Button>
         <Button onPress={() => removeToCart(movie.id)}>Remover</Button>
@@ -53,4 +59,7 @@ const styles = StyleSheet.create({
   modalContainer: {
     width: '100%',
   },
+  img: {
+    width: '70%',
+  }
 });

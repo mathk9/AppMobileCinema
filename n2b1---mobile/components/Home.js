@@ -15,6 +15,7 @@ import Alert from './Alert';
 import Movie from './Movie';
 import { getAllMovies } from '../services/dbservice';
 import Icon from 'react-native-vector-icons/FontAwesome'; 
+import ListOrder from './ListOrder'
 
 export default function Home({navigation}){
 
@@ -90,7 +91,7 @@ export default function Home({navigation}){
           <Text style={styles.cartItemCount}>{qntCart}</Text>
         )}
       </TouchableOpacity>
-
+      
       <Text style={styles.paragraph}>Filmes</Text>   
       <Alert message={alert} />
         <ScrollView style={styles.listMovies}>
@@ -118,6 +119,9 @@ const styles = StyleSheet.create({
   listMovies: {
     marginBottom: 10,
     height: '85%',
+  },
+  button: {
+    width: '10%',
   },
   cartIconContainer: {
     flexDirection: 'row',

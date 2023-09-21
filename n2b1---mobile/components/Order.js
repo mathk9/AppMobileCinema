@@ -1,15 +1,33 @@
 import React from 'react';
 import { View, Text, FlatList, Image, StyleSheet, ScrollView, SafeAreaView, Button } from 'react-native';
 import { DataTable } from 'react-native-paper';
+import { addOrders, getAllOrdrUser, addFinalOrders } from '../services/dbservice';
 
 export default function Order({ navigation }) {
   const { cart } = navigation.state.params;
+
+  userId = '1';
   
   console.log('cart: ');
   console.log(cart);  
 
   const handleSubmit = async () => {
-    
+    console.log('cart: ');
+    console.log(cart);
+
+    //const idFinOrders = addFinalOrders(userId);
+
+    for (var i = 0; i < cart.length; i++) {      
+      cart[i].userId = userId
+      cart[i].FinalOrders = 1//idFinOrders
+      console.log('cart[i]')
+      cart[i].seats = cart[i].seats[i]
+      cart[i].totalPrice
+      console.log(cart[i])
+      console.log(addOrders(cart[i]));
+    }
+
+    console.log(getAllOrdrUser(userId));
   }
   
   return (
@@ -51,6 +69,7 @@ export default function Order({ navigation }) {
           title="Finalizar Compra"
           color="#f194ff"
           mode="contained"
+          onPress={()=> handleSubmit()}
           accessibilityLabel="Finalizar"
         />
         <Button

@@ -1,7 +1,7 @@
 import * as SQLite from 'expo-sqlite';
 
 export function getDbConnection() {
-    const cx = SQLite.openDatabase('dbMoviesApp.db');
+    const cx = SQLite.openDatabase('dbMoviesApp2.db');
     return cx;
 }
 
@@ -28,16 +28,18 @@ export async function createTable() {
               id INTEGER not null primary key AUTOINCREMENT,
               userId text not null,
               totalPrice decimal(5,2) not null,
-              paymentMethod text not null,
               movieId text not null,
+              seats text,
+              FinalOrdersId INTEGER not null,
               FOREIGN KEY (userId) REFERENCES tbUsers (userId),
               FOREIGN KEY (movieId) REFERENCES tbMovies (movieId),
-              FOREIGN KEY (paymentMethod) REFERENCES tbPayments (paymentMethod)
+              FOREIGN KEY (FinalOrdersId) REFERENCES tbFinalOrders (FinalOrdersId)
           );`;
-        const query4 = `CREATE TABLE IF NOT EXISTS tbPayments
+        const query4 = `CREATE TABLE IF NOT EXISTS tbFinalOrders
           (
-              id INTEGER not null primary key AUTOINCREMENT,
-              methodName text not null            
+              id INTEGER not null primary key AUTOINCREMENT, 
+              userId text not null,      
+              FOREIGN KEY (userId) REFERENCES tbUsers (userId)    
           );`;
         let dbCx = getDbConnection();        
         
@@ -267,6 +269,85 @@ export function getAllUser() {
                             id: response.rows.item(n).id,
                             nome: response.rows.item(n).accountName,
                             email: response.rows.item(n).email
+                        }
+                        retorno.push(obj);
+                    }
+                    
+                    console.log('retorno: ');
+                    console.log(retorno);
+                    resolve(retorno);
+                })
+        },
+            error => {
+                console.log(error);
+                resolve(false);
+            }
+        )
+    }
+    );
+}
+
+export function addOrders(order) {
+
+    return new Promise((resolve, reject) => {
+        let query = 'insert into tbOrdes (userId, totalPrice, movieId, seats, FinalOrdersId) values (?,?,?,?,?)';
+        let dbCx = getDbConnection();
+
+        dbCx.transaction(tx => {
+            tx.executeSql(query, [order.userId, order.price, order.movieName, order.seats, order.FinalOrders],
+                (tx, response) => {
+                    resolve(response);
+                })
+        },
+            error => {
+                console.log(error);
+                resolve(false);
+            }
+        )
+    }
+    );
+}
+
+export function addFinalOrders(id) {
+
+  return new Promise((resolve, reject) => {
+      let query = 'insert into tbFinalOrders (userId) values (?)';
+      let dbCx = getDbConnection();
+
+      dbCx.transaction(tx => {
+          tx.executeSql(query, [id],
+              (tx, response) => {
+                  resolve(response);
+              })
+      },
+          error => {
+              console.log(error);
+              resolve(false);
+          }
+      )
+  }
+  );
+}
+
+export function getAllOrdrUser(id) {
+    console.log('getAllUser');
+    return new Promise((resolve, reject) => {
+        let query = 'SELECT * FROM tbOrdes WHERE userId = ?';
+        let dbCx = getDbConnection();
+
+        dbCx.transaction(tx => {
+            tx.executeSql(query, [id],
+                (tx, response) => {
+
+                    var retorno = [];
+                    
+                    for (let n = 0; n < response.rows.length; n++) {
+                        let obj = {
+                            userId: response.rows.item(n).userId,
+                            totalPrice: response.rows.item(n).totalPrice,
+                            movieId: response.rows.item(n).movieId,
+                            seats: response.rows.item(n).seats,
+                            FinalOrdersId: response.rows.item(n).FinalOrdersId,
                         }
                         retorno.push(obj);
                     }
